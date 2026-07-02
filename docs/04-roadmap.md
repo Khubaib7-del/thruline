@@ -42,5 +42,5 @@ Strategy: **vertical first (Claude Code), horizontal later.** Every milestone sh
 - Architecture map generation from memory + repo
 - Session analytics (local, opt-in only)
 
-## Build-in-public cadence
-One post per milestone completion minimum (progress, honest lessons, demo GIF). The repo itself dogfoods AgentOS from Milestone 1 onward — its own decisions live in `.agentos/`.
+## Publicity
+Silent build — no milestone posts (owner's decision, see docs/05). One polished public reveal after the owner personally verifies the product. The repo itself dogfoods AgentOS from Milestone 1 onward — its own decisions live in `.agentos/`.

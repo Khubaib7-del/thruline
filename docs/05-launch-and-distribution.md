@@ -41,10 +41,12 @@ Later candidates (post-launch, by demand): Homebrew (macOS), winget/Scoop (Windo
 
 ## Layer 4 — Getting seen (marketing on other people's platforms)
 
-### Build-in-public posts (starts now, not at launch)
-- One post minimum per completed milestone on X + LinkedIn: what shipped, a GIF/screenshot, one honest lesson learned.
-- Purpose: accumulate an interested audience *before* launch day so we don't launch to zero people; doubles as a public portfolio record.
-- Rule: show real running software, not mockups or promises.
+### Publicity approach: silent build, product-first launch (owner's decision)
+- No progress/milestone posts. We build quietly; the owner verifies the product personally before anything goes public.
+- The public reveal is one polished moment: finished product + demo GIF + live repo + working install command.
+- Rationale: the story is the product, not the steps; keeps the owner's LinkedIn presence clean.
+- Trade-off accepted: no pre-warmed audience — compensated by a stronger single launch (soft launch communities + Product Hunt do the distribution work).
+- Optional later: casual progress posts on X only (culture fits), LinkedIn stays polished-only.
 
 ### Launch sequence (at Milestone 3)
 1. **Soft launch:** post in communities where the pain is felt — r/ClaudeAI, r/cursor, Hacker News (Show HN), relevant Discords. Gather feedback, fix the top complaints.
