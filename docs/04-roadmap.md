@@ -17,7 +17,8 @@ Strategy: **vertical first (Claude Code), horizontal later.** Every milestone sh
 - [ ] Secret redaction on all state writes (security Finding 3)
 - [ ] Package as a Claude Code plugin (one-command install)
 - [ ] Record the demo GIF (the review-queue moment — see docs/05, it's the core marketing asset)
-- **Demo:** queue three notes while Claude Code builds a feature; watch it address them as review comments when it finishes.
+- **Demo:** queue notes while Claude Code builds a feature; watch it address them as review comments when it finishes.
+  ✅ **Verified live 2026-07-03** — owner ran the dogfood test: both queued notes delivered and addressed by the Stop hook, locked decision cited unprompted via UserPromptSubmit. The wedge feature works in production.
 
 ## Milestone 2 — Context health + snapshots
 - [ ] `agentos statusline`: context %, estimated prompts remaining, reset timer (labeled as estimates)
