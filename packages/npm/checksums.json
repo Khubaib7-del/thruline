@@ -1,0 +1,6 @@
+{
+  "thruline-aarch64-apple-darwin": "98349e61d7d275cf9e71bbd0765506a1da0576feb6344990bb6aa52b55cfdb65",
+  "thruline-x86_64-apple-darwin": "514389ca60973c08de6d272584b6c0c8f4b2bb1e05a15d28cc84fe91fb20ee84",
+  "thruline-x86_64-pc-windows-msvc.exe": "28917b27e1fac62c072fc19f53cb2b652a6a15ddf67af91c2cbcf2da3f2cfed9",
+  "thruline-x86_64-unknown-linux-gnu": "045140358bfb610885b157c6079e16d6ac6cc3d2228c5509cc1ee446034bebd4"
+}

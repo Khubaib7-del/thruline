@@ -1,0 +1,3 @@
+bin/thruline-bin*
+node_modules/
+*.tgz
