@@ -86,7 +86,7 @@ Plain text on purpose: the user can read, edit, and version everything without o
 | MCP tools | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Review queue, non-interrupting | ✅ Stop hook | ⚠️ rules-file instruction to poll MCP (best effort) | ⚠️ same | ⚠️ same | ⚠️ same |
 | Decision injection every prompt | ✅ UserPromptSubmit hook | ⚠️ via rules file (static) | ⚠️ same | ⚠️ same | ⚠️ same |
-| Context % / reset timer | ✅ statusline + transcript | ❌ not exposed | ❌ not exposed | ❌ | ⚠️ partial |
+| Context % / reset timer | ✅ CLI statusline (⚠️ desktop app doesn't render statuslines — `agentos context` on demand instead) | ❌ not exposed | ❌ not exposed | ❌ | ⚠️ partial |
 | Threaded replies | ❌ needs own UI | ❌ needs own UI | ❌ needs own UI | ❌ | ❌ |
 
 Legend: ✅ full · ⚠️ degraded/best-effort · ❌ not technically possible today. This matrix is the honest basis for marketing claims.
