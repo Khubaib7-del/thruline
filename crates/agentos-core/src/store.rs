@@ -1,4 +1,5 @@
 use crate::model::{Decision, NoteStatus, ReviewNote};
+use crate::trust::{self, TrustStatus};
 use anyhow::{bail, Context, Result};
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -11,6 +12,7 @@ const QUEUE_FILE: &str = "review-queue.json";
 /// mirror, so the user can always read and version the state without agentos.
 pub struct Store {
     root: PathBuf,
+    trust_db: Option<PathBuf>,
 }
 
 impl Store {
@@ -23,10 +25,14 @@ impl Store {
             );
         }
         fs::create_dir_all(&root).with_context(|| format!("creating {}", root.display()))?;
-        let store = Self { root };
+        let store = Self {
+            root,
+            trust_db: trust::default_db_path(),
+        };
         store.write_json(DECISIONS_FILE, &Vec::<Decision>::new())?;
         store.write_json(QUEUE_FILE, &Vec::<ReviewNote>::new())?;
         store.render_decisions_md(&[])?;
+        store.approve_trust()?;
         Ok(store)
     }
 
@@ -38,10 +44,39 @@ impl Store {
                 project_root.display()
             );
         }
-        Ok(Self { root })
+        Ok(Self {
+            root,
+            trust_db: trust::default_db_path(),
+        })
+    }
+
+    /// Compare the decisions file against the fingerprint approved on this
+    /// machine. `Changed` means it was edited outside agentos (e.g. a git
+    /// pull) and must be re-approved before agents see it.
+    pub fn trust_status(&self) -> TrustStatus {
+        match &self.trust_db {
+            Some(db) => trust::status(db, &self.root, &self.root.join(DECISIONS_FILE)),
+            // No resolvable home dir: cannot track trust — treat as untrusted.
+            None => TrustStatus::Untrusted,
+        }
+    }
+
+    /// Record the current decisions file as approved (the user reviewed it,
+    /// or the change came through agentos itself).
+    pub fn approve_trust(&self) -> Result<()> {
+        match &self.trust_db {
+            Some(db) => trust::approve(db, &self.root, &self.root.join(DECISIONS_FILE)),
+            None => Ok(()),
+        }
     }
 
     pub fn add_decision(&self, text: &str, why: Option<&str>, locked: bool) -> Result<Decision> {
+        if self.trust_status() == TrustStatus::Changed {
+            bail!(
+                "decisions were modified outside agentos — review them with \
+                 `agentos list`, then run `agentos trust` before recording new ones"
+            );
+        }
         let mut all: Vec<Decision> = self.read_json(DECISIONS_FILE)?;
         let decision = Decision {
             id: all.last().map_or(1, |d| d.id + 1),
@@ -53,6 +88,7 @@ impl Store {
         all.push(decision.clone());
         self.write_json(DECISIONS_FILE, &all)?;
         self.render_decisions_md(&all)?;
+        self.approve_trust()?;
         Ok(decision)
     }
 

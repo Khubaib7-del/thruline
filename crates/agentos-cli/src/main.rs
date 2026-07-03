@@ -44,6 +44,8 @@ enum Command {
         #[arg(long)]
         json: bool,
     },
+    /// Review and approve project memory after it changed outside agentos
+    Trust,
     /// Render project memory into AGENTS.md for other agents (Cursor, Codex, ...)
     Render,
     /// Show context health for this project's latest Claude Code session
@@ -132,6 +134,20 @@ fn main() -> Result<()> {
                     println!("  #{} {}", n.id, n.text);
                 }
             }
+        }
+        Command::Trust => {
+            let store = Store::open(&cwd)?;
+            let decisions = store.decisions()?;
+            println!("you are approving these decisions for injection into agents:");
+            for d in &decisions {
+                let lock = if d.locked { " [locked]" } else { "" };
+                println!("  #{} {}{lock}", d.id, d.text);
+            }
+            if decisions.is_empty() {
+                println!("  (none)");
+            }
+            store.approve_trust()?;
+            println!("trusted — agents on this machine will now receive this project's memory");
         }
         Command::Render => {
             let store = Store::open(&cwd)?;

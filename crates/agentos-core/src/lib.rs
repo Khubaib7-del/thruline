@@ -1,17 +1,59 @@
 pub mod model;
 pub mod redact;
 pub mod store;
+pub mod trust;
 
 pub use model::{Decision, NoteStatus, ReviewNote};
 pub use redact::redact;
 pub use store::Store;
+pub use trust::TrustStatus;
 
 #[cfg(test)]
 mod tests {
-    use super::Store;
+    use super::{Store, TrustStatus};
+
+    /// Point the trust db at a temp file so tests never touch the real
+    /// ~/.agentos/trust.json. Once per process; project keys stay unique
+    /// because every test uses its own temp dir.
+    fn isolate_trust() {
+        static ONCE: std::sync::Once = std::sync::Once::new();
+        ONCE.call_once(|| {
+            let p = std::env::temp_dir()
+                .join(format!("agentos-trust-test-{}.json", std::process::id()));
+            let _ = std::fs::remove_file(&p);
+            std::env::set_var("AGENTOS_TRUST_DB", p);
+        });
+    }
+
+    #[test]
+    fn trust_flags_external_edits_and_recovers_on_approval() {
+        isolate_trust();
+        isolate_trust();
+        let dir = tempfile::tempdir().unwrap();
+        let store = Store::init(dir.path()).unwrap();
+        store.add_decision("DB: PostgreSQL", None, true).unwrap();
+        assert_eq!(store.trust_status(), TrustStatus::Trusted);
+
+        // Simulate a git pull / tampering: edit the file directly.
+        let file = dir.path().join(".agentos/decisions.json");
+        let mut raw = std::fs::read_to_string(&file).unwrap();
+        raw = raw.replace("PostgreSQL", "MongoDB");
+        std::fs::write(&file, raw).unwrap();
+        assert_eq!(store.trust_status(), TrustStatus::Changed);
+
+        // Writes are blocked until the user reviews.
+        assert!(store.add_decision("more", None, false).is_err());
+
+        // Approval (agentos trust) restores normal operation.
+        store.approve_trust().unwrap();
+        assert_eq!(store.trust_status(), TrustStatus::Trusted);
+        assert!(store.add_decision("more", None, false).is_ok());
+    }
 
     #[test]
     fn init_then_reopen_roundtrip() {
+        isolate_trust();
+        isolate_trust();
         let dir = tempfile::tempdir().unwrap();
         let store = Store::init(dir.path()).unwrap();
         store
@@ -29,6 +71,7 @@ mod tests {
 
     #[test]
     fn secrets_never_reach_disk() {
+        isolate_trust();
         let dir = tempfile::tempdir().unwrap();
         let store = Store::init(dir.path()).unwrap();
         store
@@ -51,6 +94,7 @@ mod tests {
 
     #[test]
     fn mark_delivered_removes_from_pending() {
+        isolate_trust();
         let dir = tempfile::tempdir().unwrap();
         let store = Store::init(dir.path()).unwrap();
         let a = store.add_note("first").unwrap();
@@ -63,6 +107,7 @@ mod tests {
 
     #[test]
     fn ids_increment() {
+        isolate_trust();
         let dir = tempfile::tempdir().unwrap();
         let store = Store::init(dir.path()).unwrap();
         let a = store.add_decision("first", None, false).unwrap();
@@ -73,6 +118,7 @@ mod tests {
 
     #[test]
     fn render_preserves_user_content_and_updates_managed_region() {
+        isolate_trust();
         let dir = tempfile::tempdir().unwrap();
         let store = Store::init(dir.path()).unwrap();
         store.add_decision("DB: PostgreSQL", None, true).unwrap();
@@ -104,6 +150,7 @@ mod tests {
 
     #[test]
     fn snapshot_bundles_state_and_latest_wins() {
+        isolate_trust();
         let dir = tempfile::tempdir().unwrap();
         let store = Store::init(dir.path()).unwrap();
         store.add_decision("DB: PostgreSQL", None, true).unwrap();
@@ -125,6 +172,7 @@ mod tests {
 
     #[test]
     fn init_twice_fails() {
+        isolate_trust();
         let dir = tempfile::tempdir().unwrap();
         Store::init(dir.path()).unwrap();
         assert!(Store::init(dir.path()).is_err());
@@ -132,6 +180,7 @@ mod tests {
 
     #[test]
     fn open_without_init_fails() {
+        isolate_trust();
         let dir = tempfile::tempdir().unwrap();
         assert!(Store::open(dir.path()).is_err());
     }

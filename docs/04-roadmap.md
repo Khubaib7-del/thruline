@@ -32,7 +32,7 @@ Strategy: **vertical first (Claude Code), horizontal later.** Every milestone sh
 - [x] `agentos render`: managed region in AGENTS.md (the emerging cross-agent standard, read by Cursor/Codex/Copilot/Gemini CLI) — user content preserved, region replaced idempotently; per-agent files (.cursor/rules, GEMINI.md) only if demand appears
 - [x] `/agentos:steer` slash command: interrupt correction processed with review semantics — log it, audit work done so far against it, fix conflicts, then continue (owner's idea, 2026-07-03)
 - [ ] MCP registration + tested integration for Cursor, Copilot (VS Code), Codex, Gemini CLI
-- [ ] Trust-on-first-use + change-detection flow (security Finding 1)
+- [x] Trust-on-first-use + change-detection flow (security Finding 1) — fingerprints in `~/.agentos/trust.json` (outside the repo, so repo tampering can't self-bless); external edits quarantine memory from the prompt hook and MCP read tools until `agentos trust`; concurrent-writer race fixed with lock file + atomic replace
 - [ ] Public release: signed binaries, checksums, npm wrapper, SECURITY.md
 - [ ] Landing page + docs site live, soft launch → Product Hunt (full sequence in docs/05)
 - **This is the launch milestone** (name decided before this ships).
