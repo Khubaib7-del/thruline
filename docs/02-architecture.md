@@ -90,7 +90,7 @@ Plain text on purpose: the user can read, edit, and version everything without o
 | Threaded replies | ❌ needs own UI | ❌ needs own UI | ❌ needs own UI | ❌ | ❌ | ❌ | ❌ |
 
 Legend: ✅ full · ⚠️ degraded/best-effort · ❌ not technically possible today. This matrix is the honest basis for marketing claims.
-Antigravity and Command Code columns are per their docs (July 2026), not yet live-tested; Antigravity's parallel-agent Manager view makes shared decision memory *more* valuable (agents diverging on architecture is the multi-agent failure mode).
+**Antigravity: owner-tested 2026-07-03** — agent ran the full thruline setup itself from a chat instruction, respected both locked decisions unprompted (cited compliance in its own summary), addressed queued review notes, and *voluntarily* saved a session snapshot when wrapping up — workflow adoption from AGENTS.md alone, no hooks. Command Code column is per docs, external tester in progress. Antigravity's parallel-agent Manager view makes shared decision memory *more* valuable (agents diverging on architecture is the multi-agent failure mode).
 
 ## Crate layout
 
