@@ -1,0 +1,78 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+jobs:
+  build:
+    name: build (${{ matrix.target }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+            binary: agentos
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+            binary: agentos.exe
+          - target: x86_64-apple-darwin
+            os: macos-latest
+            binary: agentos
+          - target: aarch64-apple-darwin
+            os: macos-latest
+            binary: agentos
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo build --release --target ${{ matrix.target }} -p agentos-cli
+      - name: Stage artifact
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp "target/${{ matrix.target }}/release/${{ matrix.binary }}" "dist/agentos-${{ matrix.target }}${{ matrix.binary == 'agentos.exe' && '.exe' || '' }}"
+      - name: Attest build provenance (Sigstore)
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: dist/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: agentos-${{ matrix.target }}
+          path: dist/*
+
+  release:
+    name: publish release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Generate checksums
+        run: |
+          cd dist
+          sha256sum * > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          draft: false
+          generate_release_notes: true
+          body: |
+            Binaries for Linux (x64), Windows (x64), and macOS (x64 + Apple Silicon).
+
+            **Verify your download:** compare against `SHA256SUMS.txt`, and check the
+            Sigstore build provenance with:
+            `gh attestation verify <file> --repo ${{ github.repository }}`
