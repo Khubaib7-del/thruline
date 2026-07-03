@@ -80,16 +80,17 @@ Plain text on purpose: the user can read, edit, and version everything without o
 
 ## Per-agent feasibility matrix
 
-| Capability | Claude Code | Cursor | Copilot (VS Code) | Codex | Gemini CLI |
-|---|---|---|---|---|---|
-| Read project memory (files) | ✅ CLAUDE.md/AGENTS.md | ✅ rules | ✅ instructions | ✅ AGENTS.md | ✅ GEMINI.md |
-| MCP tools | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Review queue, non-interrupting | ✅ Stop hook | ⚠️ rules-file instruction to poll MCP (best effort) | ⚠️ same | ⚠️ same | ⚠️ same |
-| Decision injection every prompt | ✅ UserPromptSubmit hook | ⚠️ via rules file (static) | ⚠️ same | ⚠️ same | ⚠️ same |
-| Context % / reset timer | ✅ CLI statusline (⚠️ desktop app doesn't render statuslines — `thruline context` on demand instead) | ❌ not exposed | ❌ not exposed | ❌ | ⚠️ partial |
-| Threaded replies | ❌ needs own UI | ❌ needs own UI | ❌ needs own UI | ❌ | ❌ |
+| Capability | Claude Code | Cursor | Copilot (VS Code) | Codex | Gemini CLI | Antigravity (IDE/CLI) | Command Code |
+|---|---|---|---|---|---|---|---|
+| Read project memory (files) | ✅ CLAUDE.md/AGENTS.md | ✅ rules | ✅ instructions | ✅ AGENTS.md | ✅ GEMINI.md | ✅ AGENTS.md (v1.20.3+) + GEMINI.md | ✅ AGENTS.md |
+| MCP tools | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ (early 2026, shared config across suite) | ✅ (/mcp manager, stdio) |
+| Review queue, non-interrupting | ✅ Stop hook | ⚠️ rules-file instruction to poll MCP (best effort) | ⚠️ same | ⚠️ same | ⚠️ same | ⚠️ same | ⚠️ same |
+| Decision injection every prompt | ✅ UserPromptSubmit hook | ⚠️ via rules file (static) | ⚠️ same | ⚠️ same | ⚠️ same | ⚠️ same | ⚠️ same |
+| Context % / reset timer | ✅ CLI statusline (⚠️ desktop app doesn't render statuslines — `thruline context` on demand instead) | ❌ not exposed | ❌ not exposed | ❌ | ⚠️ partial | ❌ not exposed | ❌ not exposed |
+| Threaded replies | ❌ needs own UI | ❌ needs own UI | ❌ needs own UI | ❌ | ❌ | ❌ | ❌ |
 
 Legend: ✅ full · ⚠️ degraded/best-effort · ❌ not technically possible today. This matrix is the honest basis for marketing claims.
+Antigravity and Command Code columns are per their docs (July 2026), not yet live-tested; Antigravity's parallel-agent Manager view makes shared decision memory *more* valuable (agents diverging on architecture is the multi-agent failure mode).
 
 ## Crate layout
 
