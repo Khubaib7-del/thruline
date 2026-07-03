@@ -49,8 +49,13 @@ pub fn run() {
                     stats.used / 1000,
                     limit / 1000
                 ));
-                if let Some(p) = stats.prompts_left {
-                    parts.push(format!("~{p} prompts left"));
+                match stats.prompts_left {
+                    // Early-session extrapolation produces silly numbers
+                    // ("~1199 prompts left"); past 99 the estimate carries
+                    // no information, so cap the display.
+                    Some(p) if p > 99 => parts.push("99+ prompts left".into()),
+                    Some(p) => parts.push(format!("~{p} prompts left")),
+                    None => {}
                 }
             } else {
                 // Usage beyond the assumed limit means our limit table is
