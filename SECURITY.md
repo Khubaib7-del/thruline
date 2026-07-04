@@ -3,7 +3,7 @@
 thruline injects content into AI coding agents' contexts and modifies their
 configuration — we treat that position seriously. The full threat model,
 including what we protect against and how, is documented in
-[docs/03-security.md](docs/03-security.md).
+[docs/security.md](docs/security.md).
 
 ## Reporting a vulnerability
 

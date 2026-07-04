@@ -38,8 +38,12 @@ Pick your guide — each one is complete, honest about what works, and has troub
 | Your agent | Guide |
 |---|---|
 | **Claude Code** (CLI or desktop app) | [setup guide](docs/setup/claude-code.md) — deepest integration: enforced review queue, decision injection, statusline |
-| **Command Code** | [setup guide](docs/setup/command-code.md) — AGENTS.md memory + MCP tools |
-| **Cursor, Antigravity, Codex, Gemini CLI, Copilot** | [setup guide](docs/setup/other-agents.md) — AGENTS.md memory + MCP tools |
+| **Cursor** | [setup guide](docs/setup/cursor.md) |
+| **Antigravity** | [setup guide](docs/setup/antigravity.md) |
+| **Command Code** | [setup guide](docs/setup/command-code.md) |
+| **Codex CLI** | [setup guide](docs/setup/codex.md) |
+| **Gemini CLI** | [setup guide](docs/setup/gemini-cli.md) |
+| **Copilot (VS Code)** | [setup guide](docs/setup/copilot.md) |
 
 Before assuming a feature exists in your agent, read **[what works where](docs/setup/what-works-where.md)** — the honest compatibility page (e.g. slash commands and enforced queue delivery are Claude Code-only; memory and MCP tools work everywhere).
 
@@ -79,11 +83,8 @@ This wires the Stop/UserPromptSubmit hooks, registers the MCP server, and adds `
 
 ## Documentation
 
-- [Vision & Product Definition](docs/01-vision.md) — problem, features, differentiation
-- [Architecture](docs/02-architecture.md) — single Rust binary, MCP + hooks + statusline, per-agent feasibility matrix
-- [Security & Threat Model](docs/03-security.md) — findings on prompt injection, secrets, supply chain, and how we mitigate them
-- [Roadmap](docs/04-roadmap.md) — MVP milestones
-- [Distribution & Launch](docs/05-launch-and-distribution.md) — install channels, landing page, docs site, build-in-public, Product Hunt
+- [Architecture](docs/architecture.md) — single Rust binary, MCP + hooks + statusline, per-agent feasibility matrix
+- [Security & Threat Model](docs/security.md) — findings on prompt injection, secrets, supply chain, and how we mitigate them
 - [DECISIONS.md](DECISIONS.md) — the project's own decision log (we dogfood our own concept)
 
 ## Design principles

@@ -2,3 +2,5 @@
 Cargo.lock.orig
 .claude/settings.local.json
 .thruline/review-queue.json
+
+internal/
