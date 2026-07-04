@@ -50,3 +50,4 @@ Locked decisions ride along with every prompt you send; if memory files were edi
 - **Hooks don't fire** — hooks load at session start: start a *new* session after installing. First fire may show a one-time permission prompt — allow it.
 - **Notes delivered twice** — you probably have both the plugin and a manual `setup` config in one project. Remove the hooks block from `.claude/settings.local.json`.
 - **"not trusted on this machine" warning** — memory changed outside Thruline. Review with `thruline list`, approve with `thruline trust`.
+- **Plugin update doesn't pick up new commands** — the marketplace caches a local copy of the repo; refresh it first: `/plugin marketplace update thruline`, then `/plugin update thruline@thruline`, then start a new session. Last resort: uninstall plugin → remove marketplace → re-add → reinstall.
