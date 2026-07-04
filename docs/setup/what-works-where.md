@@ -23,6 +23,13 @@ Claude Code-only.**
 | **`/thruline:` slash commands** | Claude Code's plugin system. Other agents' slash menus are closed to outside tools — pressing `/` there will never show Thruline entries. Equivalent everywhere: ask the agent to run `thruline note "..."`, or run it yourself |
 | **Context-health statusline** (context %, prompts left, reset timer) | Needs both a statusline surface and readable session data; only the Claude Code terminal CLI has both. The desktop app and all other agents: run `thruline context` in a terminal instead (Claude Code projects only — other agents don't expose usage data at all) |
 
+## One deliberate omission
+
+There is no `/thruline:trust` slash command, on purpose: trust approval exists
+so a *human* reviews memory that may have been tampered with. If the agent
+could approve it, a prompt-injected agent could bless its own poisoned memory.
+`thruline trust` is terminal-only, forever.
+
 ## Things no tool can do (not just us)
 
 - Add commands, buttons, or panels **inside** another agent's interface — every agent's UI is closed to outsiders
