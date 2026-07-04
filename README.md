@@ -41,6 +41,8 @@ Before assuming a feature exists in your agent, read **[what works where](docs/s
 
 (These guides will move to the docs site at launch; the links will keep working.)
 
+**Versioning note:** the binary (GitHub releases, npm, crates.io) and the Claude Code plugin (`.claude-plugin/plugin.json`) are versioned separately — plugin numbers move faster because slash-command changes don't need a new binary. Both align again at `v0.1.0`.
+
 ## Usage
 
 ```
