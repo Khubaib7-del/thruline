@@ -173,9 +173,9 @@ body.go .say .v::after{animation:swipe .45s ease forwards 1.25s}
 </div>
 
 <div class="bar"><div class="wrap">
-  <div class="l"><b>thruline</b> v0.0.3 · local-first · MIT</div>
+  <div class="l"><b>thruline</b> v0.1.0 · local-first · MIT</div>
   <div class="r">
-    <a href="#queue">review queue</a><a href="#agents">agents</a>
+    <a href="#queue">review queue</a><a href="#vscode">vs code</a><a href="#agents">agents</a>
     <a href="docs.html">docs</a>
     <a href="https://github.com/Khubaib7-del/thruline">github ↗</a>
   </div>
@@ -272,12 +272,41 @@ body.go .say .v::after{animation:swipe .45s ease forwards 1.25s}
 
 <hr class="sep">
 
+<section id="vscode"><div class="wrap">
+  <div class="tag reveal">06 · YOUR OWN UI</div>
+  <h2 class="say reveal" style="font-size:clamp(1.7rem,4.4vw,3rem)">threaded replies.<br><span class="v">in your sidebar.</span></h2>
+  <p class="mut reveal">No agent lets outside tools draw inside their chat. So we built our own surface. The VS Code panel shows your review queue live, lets you reply to specific agent responses (like WhatsApp reply-to-message), and auto-refreshes when the agent finishes.</p>
+  <div class="term reveal">
+    <div class="tbar"><span class="dot a"></span><span class="dot"></span><span class="dot"></span><span class="title">thruline panel — vs code sidebar</span></div>
+    <div class="tbody" style="font-size:.82rem;line-height:1.8"><span class="out">REVIEW QUEUE</span> <span class="ok">2</span>
+<span class="out">┌─────────────────────────────────────────────────┐</span>
+<span class="out">│</span> <span class="ink">debounce the search input</span>                        <span class="out">│</span>
+<span class="out">│</span> <span class="out">2m ago</span>            <span class="cl">↩ the search commit</span>   <span class="out">resolve │</span>
+<span class="out">├─────────────────────────────────────────────────┤</span>
+<span class="out">│</span> <span class="ink">cache repeated queries</span>                            <span class="out">│</span>
+<span class="out">│</span> <span class="out">1m ago</span>            <span class="cl">↩ the search commit</span>   <span class="out">resolve │</span>
+<span class="out">└─────────────────────────────────────────────────┘</span>
+<span class="out">[</span><span class="cmd"> + Note                                      </span><span class="out">]</span>
+<span class="out">thread: </span><span class="out">e.g. "the auth refactor commit"</span>
+
+<span class="out">DECISIONS</span>
+<span class="warn">🔒</span> <span class="ink">DB: PostgreSQL</span>
+   <span class="out">team knows it</span>
+<span class="warn">🔒</span> <span class="ink">auth: Clerk</span>
+   <span class="out">cheaper, integrates with Next.js</span></div>
+  </div>
+  <p class="mut reveal">Works alongside Cursor, Copilot, Claude Code desktop — any agent in VS Code. File watcher auto-refreshes; no polling, no tokens.</p>
+</div></section>
+
+<hr class="sep">
+
 <section class="tight"><div class="wrap">
-  <div class="tag reveal">06 · GET IT</div>
+  <div class="tag reveal">07 · GET IT</div>
   <div class="getit reveal">
     <div class="opt" onclick="cp(this,'npm install -g thruline')"><span class="k">any platform · checksum-verified</span><span class="c">$ npm install -g thruline</span></div>
     <div class="opt" onclick="cp(this,'cargo install thruline')"><span class="k">from source</span><span class="c">$ cargo install thruline</span></div>
-    <div class="opt" onclick="cp(this,'/plugin marketplace add Khubaib7-del/thruline')"><span class="k">claude code plugin · hooks + 11 commands</span><span class="c">/plugin marketplace add Khubaib7-del/thruline</span></div>
+    <div class="opt" onclick="cp(this,'/plugin marketplace add Khubaib7-del/thruline')"><span class="k">claude code plugin · hooks + 12 commands</span><span class="c">/plugin marketplace add Khubaib7-del/thruline</span></div>
+    <div class="opt" onclick="cp(this,'ext install khubaib7.thruline-panel')"><span class="k">vs code · threaded review panel</span><span class="c">ext install khubaib7.thruline-panel</span></div>
   </div>
 </div></section>
 

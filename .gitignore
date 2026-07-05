@@ -6,3 +6,5 @@ Cargo.lock.orig
 internal/
 .thruline/snapshots/
 .claude/launch.json
+packages/vscode/node_modules/
+packages/vscode/out/

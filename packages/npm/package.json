@@ -1,6 +1,6 @@
 {
   "name": "thruline",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Companion layer for AI coding agents: review queue, decision locks, session snapshots, cross-agent memory",
   "bin": {
     "thruline": "bin/thruline.js"

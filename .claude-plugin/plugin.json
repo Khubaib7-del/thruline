@@ -1,7 +1,7 @@
 {
   "name": "thruline",
   "description": "Companion layer for AI coding agents: review queue delivered when the agent finishes, locked project decisions injected into every prompt. Requires the thruline binary on PATH (npm install -g thruline, or cargo install thruline).",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "author": {
     "name": "Khubaib7-del",
     "url": "https://github.com/Khubaib7-del"

@@ -555,7 +555,7 @@ dependencies = [
 
 [[package]]
 name = "thruline"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -568,7 +568,7 @@ dependencies = [
 
 [[package]]
 name = "thruline-core"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -581,7 +581,7 @@ dependencies = [
 
 [[package]]
 name = "thruline-mcp"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "anyhow",
  "serde_json",

@@ -7,7 +7,7 @@
 
 **A companion layer for AI coding agents.** It doesn't generate code — it improves the collaboration between developers and agents like Claude Code, Cursor, GitHub Copilot, Codex, Gemini CLI, and Antigravity.
 
-> Status: early development (July 2026). Core CLI, Claude Code hooks, and MCP server are working; see Usage below.
+> Status: v0.1.0 (July 2026). Core CLI, Claude Code hooks, MCP server, and VS Code panel are working; see Usage below.
 
 ## The one-line pitch
 
@@ -26,6 +26,8 @@ Every AI coding agent forgets your decisions, can't be steered mid-task without 
 | **Context Health** | Live context-window %, degradation estimate, usage-reset timer (Claude Code) |
 | **Session Snapshots** | One command captures state (decisions, TODOs, architecture) for the next session or a different agent |
 | **Cross-Agent Memory** | File-based memory readable by every agent via `AGENTS.md` conventions + MCP |
+| **VS Code Panel** | Sidebar with threaded review notes — reply to specific agent responses like WhatsApp reply-to-message |
+| **Graceful Pause** | `/thruline:pause` — agent finishes the current atom, snapshots, and stops; distinct from emergency Esc |
 
 ## Install
 
@@ -52,7 +54,7 @@ Pick your guide — each one is complete, honest about what works, and has troub
 
 Before assuming a feature exists in your agent, read **[what works where](docs/setup/what-works-where.md)** — the honest compatibility page (e.g. slash commands and enforced queue delivery are Claude Code-only; memory and MCP tools work everywhere).
 
-**Versioning note:** the binary (GitHub releases, npm, crates.io) and the Claude Code plugin (`.claude-plugin/plugin.json`) are versioned separately — plugin numbers move faster because slash-command changes don't need a new binary. Both align again at `v0.1.0`.
+**Versioning note:** as of v0.1.0, the binary and the Claude Code plugin share the same version number and move together.
 
 ## Usage
 
@@ -82,7 +84,18 @@ With the `thruline` binary on PATH (`npm install -g thruline`), the repo doubles
 /plugin install thruline@thruline
 ```
 
-This wires the Stop/UserPromptSubmit hooks, registers the MCP server, and adds eleven slash commands (`/thruline:note`, `:decide`, `:status`, `:steer`, `:snapshot`, `:restore`, `:wrap`, and more). Manual alternative: `thruline setup claude-code --apply` per project.
+This wires the Stop/UserPromptSubmit hooks, registers the MCP server, and adds twelve slash commands (`/thruline:note`, `:decide`, `:status`, `:steer`, `:snapshot`, `:restore`, `:pause`, `:wrap`, and more). Manual alternative: `thruline setup claude-code --apply` per project.
+
+## VS Code Extension
+
+The sidebar panel gives you a persistent UI alongside any agent (Cursor, Copilot, Claude Code desktop):
+
+```
+cd packages/vscode && npm install && npm run compile
+# Then: Extensions → Install from VSIX, or F5 to launch Extension Dev Host
+```
+
+Features: live review queue with threaded replies, decision viewer, one-click resolve, file watcher auto-refresh.
 
 ## Documentation
 

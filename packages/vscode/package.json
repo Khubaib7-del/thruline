@@ -1,0 +1,66 @@
+{
+  "name": "thruline-panel",
+  "displayName": "Thruline",
+  "description": "Threaded review notes for AI coding agents — queue ideas, reply to specific responses, steer without interrupting.",
+  "version": "0.1.0",
+  "publisher": "khubaib7",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Khubaib7-del/thruline"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "keywords": ["ai", "agents", "claude", "cursor", "copilot", "review", "memory"],
+  "activationEvents": [
+    "workspaceContains:.thruline"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "thruline",
+          "title": "Thruline",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "thruline": [
+        {
+          "type": "webview",
+          "id": "thruline.panel",
+          "name": "Review Queue"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "thruline.addNote",
+        "title": "Thruline: Add Review Note"
+      },
+      {
+        "command": "thruline.refresh",
+        "title": "Thruline: Refresh Panel"
+      },
+      {
+        "command": "thruline.pause",
+        "title": "Thruline: Pause (stepping away)"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0",
+    "@vscode/vsce": "^2.24.0"
+  }
+}
