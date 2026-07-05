@@ -1,6 +1,6 @@
 # Thruline — Threaded Review Notes for AI Coding Agents
 
-![Thruline demo](https://raw.githubusercontent.com/Khubaib7-del/thruline/main/docs/assets/thruline-hero.gif)
+![Thruline VS Code panel demo](https://raw.githubusercontent.com/Khubaib7-del/thruline/main/docs/assets/vscode-demo.gif)
 
 Your AI coding agent is deep in a task. You have an idea. Today your options are: interrupt it, or forget. Thruline adds a third: **queue the note — the agent gets it when it finishes.**
 
