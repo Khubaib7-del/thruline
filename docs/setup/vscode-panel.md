@@ -18,7 +18,7 @@ The Thruline sidebar panel gives you a persistent UI for the review queue and de
 ### From the marketplace
 
 ```
-ext install khubaib7.thruline-panel
+ext install KhubaibNazeer7.thruline-panel
 ```
 
 Or search "Thruline" in the VS Code extensions tab.
