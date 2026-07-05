@@ -117,9 +117,60 @@ footer{border-top:1px solid var(--line);padding:70px 0}
 .reveal.in{opacity:1;transform:none}
 @media(max-width:760px){.split{grid-template-columns:1fr}.split .pane+.pane{border-left:0;border-top:1px solid var(--line)}.split .tbody{min-height:0}}
 @media(prefers-reduced-motion:reduce){.reveal{transition:none;opacity:1;transform:none}}
+
+/* ── intro: logo draws, then the circle opens ── */
+@property --hr{syntax:'<length-percentage>';initial-value:0%;inherits:false}
+body.lock{overflow:hidden}
+#intro{position:fixed;inset:0;z-index:99;background:var(--bg);display:flex;align-items:center;justify-content:center;
+  mask:radial-gradient(circle at 50% 50%,transparent var(--hr),#000 calc(var(--hr) + 1px));
+  -webkit-mask:radial-gradient(circle at 50% 50%,transparent var(--hr),#000 calc(var(--hr) + 1px))}
+#intro.open{animation:iris .95s cubic-bezier(.7,0,.3,1) forwards}
+@keyframes iris{to{--hr:125%}}
+#intro .ilogo{width:112px;height:112px;opacity:0;animation:ipop .5s ease forwards .12s}
+#intro.open .ilogo{animation:ifade .45s ease forwards}
+@keyframes ipop{to{opacity:1}}
+@keyframes ifade{to{opacity:0;transform:scale(.92)}}
+.mline{stroke:var(--vio);stroke-width:5;fill:none;stroke-linecap:round}
+#intro .mline{stroke-dasharray:100;stroke-dashoffset:100;animation:draw 1s cubic-bezier(.6,0,.3,1) forwards .4s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.md{fill:var(--vio);transform-box:fill-box;transform-origin:center}
+.md.m2{fill:var(--ink)}
+#intro .md{transform:scale(0);animation:pop .4s cubic-bezier(.5,1.7,.4,1) forwards}
+#intro .m1{animation-delay:.45s}#intro .m2{animation-delay:.85s}#intro .m3{animation-delay:1.25s}
+@keyframes pop{to{transform:scale(1)}}
+
+/* ── hero entrance (after intro) ── */
+.mark-row{margin-bottom:20px;opacity:0}
+.mark-row .mark{width:46px;height:46px;display:block}
+.say .ln{display:inline-block;opacity:0;transform:translateY(28px)}
+body.go .mark-row{animation:rise .6s ease forwards}
+body.go .l1{animation:rise .65s ease forwards .1s}
+body.go .l2{animation:rise .65s ease forwards .28s}
+@keyframes rise{to{opacity:1;transform:none}}
+.strike{position:relative;color:var(--dim)}
+.strike::after{content:"";position:absolute;left:-2%;top:53%;height:.09em;width:0;background:var(--red);border-radius:2px}
+body.go .strike::after{animation:swipe .38s ease forwards .95s}
+.say .v{position:relative}
+.say .v::after{content:"";position:absolute;left:0;bottom:.02em;height:.07em;width:0;background:var(--vio);border-radius:2px}
+body.go .say .v::after{animation:swipe .45s ease forwards 1.25s}
+@keyframes swipe{to{width:102%}}
+@media(prefers-reduced-motion:reduce){
+  #intro{display:none}
+  .say .ln,.mark-row{opacity:1;transform:none}
+  body.go .strike::after,body.go .say .v::after{animation:none;width:102%}
+}
 </style>
 </head>
 <body>
+
+<div id="intro" aria-hidden="true">
+  <svg class="ilogo" viewBox="0 0 64 64">
+    <path class="mline" pathLength="100" d="M10 44 C 22 44, 20 20, 32 20 S 42 44, 54 44"/>
+    <circle class="md m1" cx="10" cy="44" r="5"/>
+    <circle class="md m2" cx="32" cy="20" r="5"/>
+    <circle class="md m3" cx="54" cy="44" r="5"/>
+  </svg>
+</div>
 
 <div class="bar"><div class="wrap">
   <div class="l"><b>thruline</b> v0.0.3 · local-first · MIT</div>
@@ -131,7 +182,13 @@ footer{border-top:1px solid var(--line);padding:70px 0}
 </div></div>
 
 <section id="hero"><div class="wrap">
-  <h1 class="say">your agents have <span class="strike">memory</span> amnesia.<br>give them a <span class="v">throughline</span>.</h1>
+  <div class="mark-row"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+    <path class="mline" pathLength="100" d="M10 44 C 22 44, 20 20, 32 20 S 42 44, 54 44"/>
+    <circle class="md m1" cx="10" cy="44" r="5"/>
+    <circle class="md m2" cx="32" cy="20" r="5"/>
+    <circle class="md m3" cx="54" cy="44" r="5"/>
+  </svg></div>
+  <h1 class="say"><span class="ln l1">your agents have <span class="strike">memory</span> amnesia.</span><br><span class="ln l2">give them a <span class="v">throughline</span>.</span></h1>
   <p class="mut">Every new session starts from zero. Decisions get forgotten, ideas interrupt, context dies silently. thruline is one Rust binary that fixes the collaboration — for Claude Code, Cursor, Antigravity, Codex, and every MCP agent.</p>
 
   <div class="term reveal">
@@ -344,19 +401,34 @@ function runScript(el, steps){
 }
 
 const done = new Set();
-const io = new IntersectionObserver(es => es.forEach(e => {
-  if(!e.isIntersecting) return;
-  e.target.classList.add("in");
-  const body = e.target.matches(".term,.split") ? e.target.querySelectorAll(".tbody[data-script]") : [];
-  body.forEach(b => {
-    const id = b.dataset.script;
-    if(done.has(id)) return; done.add(id);
-    if(matchMedia("(prefers-reduced-motion: reduce)").matches){
-      S[id].forEach(s => { if(s.t!=="pause"){ const c=s.t==="cmd"?"cmd":s.c||"out"; const p=s.t==="cmd"?'<span class="ps">$ </span>':""; s.x.split("\\n").forEach(l=>b.insertAdjacentHTML("beforeend",`${p}<span class="${c}">${esc(l)}</span>\n`)); }});
-    } else runScript(b, S[id]);
-  });
-}), {threshold:.25});
-document.querySelectorAll(".reveal,.term,.split").forEach(el => io.observe(el));
+function initIO(){
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if(!e.isIntersecting) return;
+    e.target.classList.add("in");
+    const body = e.target.matches(".term,.split") ? e.target.querySelectorAll(".tbody[data-script]") : [];
+    body.forEach(b => {
+      const id = b.dataset.script;
+      if(done.has(id)) return; done.add(id);
+      if(matchMedia("(prefers-reduced-motion: reduce)").matches){
+        S[id].forEach(s => { if(s.t!=="pause"){ const c=s.t==="cmd"?"cmd":s.c||"out"; const p=s.t==="cmd"?'<span class="ps">$ </span>':""; s.x.split("\\n").forEach(l=>b.insertAdjacentHTML("beforeend",`${p}<span class="${c}">${esc(l)}</span>\n`)); }});
+      } else runScript(b, S[id]);
+    });
+  }), {threshold:.25});
+  document.querySelectorAll(".reveal,.term,.split").forEach(el => io.observe(el));
+}
+
+/* intro: logo draws itself, then the circle opens onto the page.
+   once per tab session; skipped entirely for reduced-motion. */
+const intro = document.getElementById("intro");
+function startPage(){ document.body.classList.add("go"); initIO(); }
+if(sessionStorage.getItem("tl-intro") || matchMedia("(prefers-reduced-motion: reduce)").matches){
+  intro.remove(); startPage();
+} else {
+  sessionStorage.setItem("tl-intro", "1");
+  document.body.classList.add("lock");
+  setTimeout(() => intro.classList.add("open"), 1750);
+  setTimeout(() => { intro.remove(); document.body.classList.remove("lock"); startPage(); }, 2600);
+}
 
 function cp(el, text){
   navigator.clipboard.writeText(text);
